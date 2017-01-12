@@ -4,7 +4,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="br.ufpe.cin.androidopenweathermap.MapsActivity" >
+        tools:context="br.ufpe.cin.androidopenweathermap.activity.MapsActivity" >
 
         <Button
             android:id="@+id/search"
