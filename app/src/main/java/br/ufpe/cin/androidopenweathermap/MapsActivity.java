@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,7 +34,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buscar = (Button) findViewById(R.id.search);
         buscar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                pinoBuscar.getPosition();
+                if (pinoBuscar.isVisible()) {
+                    pinoBuscar.getPosition();
+                } else {
+                    Toast.makeText(MapsActivity.this,
+                            "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
+                    pinoBuscar.setVisible(true);
+                }
             }
         });
 
@@ -53,14 +60,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        // Só inicia com mapa e buscar
         final LatLng PERTH = new LatLng(-31.90, 115.86);
         final Marker perth = mMap.addMarker(new MarkerOptions()
                 .position(PERTH)
-                .draggable(true));
+                .draggable(true)
+                .visible(false));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(PERTH));
+
+        // Depois que o pino aparece
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if (!perth.isVisible()) {
+                    Toast.makeText(MapsActivity.this,
+                            "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
+                    perth.setVisible(true);
+                }
+            }
+        });
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker arg0) {
+                if (!perth.isVisible()) {
+                    Toast.makeText(MapsActivity.this,
+                            "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
+                    perth.setVisible(true);
+                }
 
             }
 
@@ -76,6 +102,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+
+        pinoBuscar = perth;
 
     }
 
