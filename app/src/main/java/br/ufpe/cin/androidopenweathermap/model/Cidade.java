@@ -5,6 +5,11 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Map;
+
+import br.ufpe.cin.androidopenweathermap.view.MapsActivity;
+
 /**
  * Created by luis on 13/01/17.
  */
@@ -49,7 +54,9 @@ public class Cidade {
     }
 
     public Cidade[] getCidades(String jsonString) {
+
         Cidade[] cidades = new Cidade[15];
+
         try {
             JSONObject cidadeObjeto = new JSONObject(jsonString);
             for (int i = 0; i < 15; i++) {
@@ -75,6 +82,7 @@ public class Cidade {
         } catch (JSONException e) {
             Log.e("Erro", "Erro no parsing do JSON", e);
         }
+
         return cidades;
     }
 

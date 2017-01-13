@@ -1,9 +1,11 @@
 package br.ufpe.cin.androidopenweathermap.view;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,9 +16,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import br.ufpe.cin.androidopenweathermap.R;
 import br.ufpe.cin.androidopenweathermap.controller.Connection;
+import br.ufpe.cin.androidopenweathermap.model.Cidade;
 
+import static android.app.PendingIntent.getActivity;
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 import static br.ufpe.cin.androidopenweathermap.R.id.map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -44,9 +53,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     // Iniciando conexão com Open Weather Map
                     Connection connection = new Connection();
-                    connection.enviar(latLng);
-                    Toast.makeText(MapsActivity.this,
-                            "Aguarde...", Toast.LENGTH_LONG).show();
+                    String jsonDeResposta = connection.enviar(latLng, MapsActivity.this);
+
+                    // Esperando resposta chegar do servidor
+                    try {
+                        while (jsonDeResposta.equals("")) {
+                            Thread.currentThread().sleep(5000);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(MapsActivity.this, ListActivity.class);
+                    intent.putExtra("jsonDeResposta", jsonDeResposta);
+                    startActivity(intent);
+
                 } else {
                     Toast.makeText(MapsActivity.this,
                             "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
