@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -33,18 +34,20 @@ public class Connection extends AsyncTask<String, Integer, String> {
             urlConnection = null;
             urlConnection = (HttpURLConnection) url
                     .openConnection();
+            urlConnection.setRequestProperty("Content-type", "application/json");
             InputStream in = urlConnection.getInputStream();
 
             // Por causa da demora do Open Wather Map para funcionar
             Thread.currentThread().sleep(10000);
-            InputStreamReader isw = new InputStreamReader(in);
+            //InputStreamReader isw = new InputStreamReader(in);
 
-            int data = isw.read();
+            //int data = isw.read();
 //            while (data != -1) {
 //                char current = (char) data;
 //                data = isw.read();
 //                System.out.print(current);
 //            }
+            String jsonDeResposta = new Scanner(urlConnection.getInputStream()).next();
             resposta = "ok";
         } catch (Exception e) {
             resposta = "erro";
