@@ -1,33 +1,31 @@
-package br.ufpe.cin.androidopenweathermap.remote;
+package br.ufpe.cin.androidopenweathermap.controller;
 
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-import static java.lang.System.currentTimeMillis;
+import br.ufpe.cin.androidopenweathermap.model.Cidade;
 
 /**
  * Created by luis on 12/01/17.
  */
 
-public class Connection extends AsyncTask<String, Integer, String> {
+public class Connection extends AsyncTask<String, Integer, Cidade[]> {
 
     private String saida;
 
     @Override
-    protected String doInBackground(String... params) {
+    protected Cidade[] doInBackground(String... params) {
 
         // Conexão com Open Weather Map deve ser feita aqui pelas boas práticas do Android
-        this.saida = "Aqui";
         String preUrl = params[0];
         URL url;
-        String resposta = "";
+        Cidade[] cidades = new Cidade[15];
         HttpURLConnection urlConnection = null;
         try{
             url = new URL(preUrl);
@@ -37,20 +35,14 @@ public class Connection extends AsyncTask<String, Integer, String> {
             urlConnection.setRequestProperty("Content-type", "application/json");
             InputStream in = urlConnection.getInputStream();
 
-            // Por causa da demora do Open Wather Map para funcionar
-            Thread.currentThread().sleep(10000);
-            //InputStreamReader isw = new InputStreamReader(in);
+            // Lendo a resposta completa do Open Weather Map
+            Scanner s = new Scanner(in).useDelimiter("\\A");
+            String jsonDeResposta = s.hasNext() ? s.next() : "";
 
-            //int data = isw.read();
-//            while (data != -1) {
-//                char current = (char) data;
-//                data = isw.read();
-//                System.out.print(current);
-//            }
-            String jsonDeResposta = new Scanner(urlConnection.getInputStream()).next();
-            resposta = "ok";
+            // Tratadno resposta
+            Cidade cidade = new Cidade();
+            cidades = cidade.getCidades(jsonDeResposta);
         } catch (Exception e) {
-            resposta = "erro";
             e.printStackTrace();
         } finally {
             if (urlConnection != null) {
@@ -58,12 +50,11 @@ public class Connection extends AsyncTask<String, Integer, String> {
             }
         }
 
-        this.saida = resposta;
-        return resposta;
+        return cidades;
     }
 
     @Override
-    protected void onPostExecute(String feed) {
+    protected void onPostExecute(Cidade[] feed) {
 
     }
 
@@ -80,7 +71,7 @@ public class Connection extends AsyncTask<String, Integer, String> {
         double longitude = latLng.longitude;
         String LAT = String.valueOf(latitude);
         String LON = String.valueOf(longitude);
-        String preUrl = "http://api.openweathermap.org/data/2.5/find?lat={"+LAT+"}&lon={"+LON+"}&cnt=15&APPID=99c49b547f8027f110bd4bb55639e8ec";
+        String preUrl = "http://api.openweathermap.org/data/2.5/find?lat="+LAT+"&lon="+LON+"&units=metric&cnt=15&APPID=99c49b547f8027f110bd4bb55639e8ec";
         execute(preUrl);
         return this.saida;
     }

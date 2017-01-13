@@ -1,4 +1,4 @@
-package br.ufpe.cin.androidopenweathermap.activity;
+package br.ufpe.cin.androidopenweathermap.view;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import br.ufpe.cin.androidopenweathermap.R;
-import br.ufpe.cin.androidopenweathermap.remote.Connection;
+import br.ufpe.cin.androidopenweathermap.controller.Connection;
 
 import static br.ufpe.cin.androidopenweathermap.R.id.map;
 
@@ -44,9 +44,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     // Iniciando conexão com Open Weather Map
                     Connection connection = new Connection();
-                    String resposta = connection.enviar(latLng);
+                    connection.enviar(latLng);
                     Toast.makeText(MapsActivity.this,
-                            resposta, Toast.LENGTH_LONG).show();
+                            "Aguarde...", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MapsActivity.this,
                             "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
@@ -71,7 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Só inicia com mapa e buscar de acordo coma a especificação
-        final LatLng PERTH = new LatLng(-31.900000000000001, 115.860000000000001);
+        final LatLng PERTH = new LatLng(-8.063122,-34.8716389);
         final Marker perth = mMap.addMarker(new MarkerOptions()
                 .position(PERTH)
                 .draggable(true)
