@@ -34,11 +34,9 @@ public class Connection extends AsyncTask<String, Integer, String> {
             urlConnection = (HttpURLConnection) url
                     .openConnection();
             InputStream in = urlConnection.getInputStream();
-            long start = currentTimeMillis();
-            long fim = currentTimeMillis();
-            while (fim-start < 10) {
-                fim = currentTimeMillis();
-            }
+
+            // Por causa da demora do Open Wather Map para funcionar
+            Thread.currentThread().sleep(10000);
             InputStreamReader isw = new InputStreamReader(in);
 
             int data = isw.read();
