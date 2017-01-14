@@ -1,8 +1,13 @@
 package br.ufpe.cin.androidopenweathermap.controller;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -14,6 +19,9 @@ import java.util.Scanner;
 
 import br.ufpe.cin.androidopenweathermap.model.Cidade;
 import br.ufpe.cin.androidopenweathermap.view.MapsActivity;
+
+import static android.R.attr.button;
+import static android.R.attr.inAnimation;
 
 /**
  * Created by luis on 12/01/17.
@@ -30,6 +38,7 @@ public class Connection extends AsyncTask<String, Context, String> {
         String preUrl = params[0];
         URL url;
         HttpURLConnection urlConnection = null;
+        int resposta = 0;
         try{
             url = new URL(preUrl);
             urlConnection = null;
@@ -37,12 +46,14 @@ public class Connection extends AsyncTask<String, Context, String> {
                     .openConnection();
             urlConnection.setRequestProperty("Content-type", "application/json");
             InputStream in = urlConnection.getInputStream();
-
+            resposta = urlConnection.getResponseCode();
             // Lendo a resposta completa do Open Weather Map
             Scanner s = new Scanner(in).useDelimiter("\\A");
             this.jsonDeResposta = s.hasNext() ? s.next() : "";
         } catch (Exception e) {
-            e.printStackTrace();
+            if (resposta != 200) {
+                this.jsonDeResposta = "erro";
+            }
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -59,12 +70,13 @@ public class Connection extends AsyncTask<String, Context, String> {
 
     @Override
     protected void onProgressUpdate(Context... progress) {
-        Toast.makeText(progress[0],
-                "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
+
     }
 
 
     public String enviar(LatLng latLng, Context context) {
+
+        onProgressUpdate(context);
 
         // Criando URL, fazendo conexão em outra thread e pegando resposta
         double latitude = latLng.latitude;

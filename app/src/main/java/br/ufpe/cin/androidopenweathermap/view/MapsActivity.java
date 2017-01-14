@@ -1,11 +1,18 @@
 package br.ufpe.cin.androidopenweathermap.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,27 +56,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 // Verificando se o usuario ja passou da primeria tela
                 if (pinoBuscar.isVisible()) {
+                    Toast.makeText(MapsActivity.this,
+                            "Carregando...", Toast.LENGTH_SHORT).show();
+
                     LatLng latLng = pinoBuscar.getPosition();
 
                     // Iniciando conexão com Open Weather Map
                     Connection connection = new Connection();
-                    String jsonDeResposta = connection.enviar(latLng, MapsActivity.this);
+                    String jsonDeResposta;
+                    jsonDeResposta = connection.enviar(latLng, MapsActivity.this);
 
                     // Esperando resposta chegar do servidor
-                    try {
-                        while (jsonDeResposta.equals("")) {
-                            Thread.currentThread().sleep(5000);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    double inicio = System.currentTimeMillis();
+                    double fim = System.currentTimeMillis();
+                    while (fim - inicio < 5) {
+                        fim = System.currentTimeMillis();
                     }
-                    Intent intent = new Intent(MapsActivity.this, ListActivity.class);
-                    intent.putExtra("jsonDeResposta", jsonDeResposta);
-                    startActivity(intent);
+                    if (jsonDeResposta.equals("") || jsonDeResposta.equals("erro")) {
+                        Toast.makeText(MapsActivity.this,
+                                "O servidor está com problemas", Toast.LENGTH_LONG).show();
+                    } else {
+                        Intent intent = new Intent(MapsActivity.this, ListActivity.class);
+                        intent.putExtra("jsonDeResposta", jsonDeResposta);
+                        startActivity(intent);
+                    }
+                    fim = System.currentTimeMillis();
+                    if (fim - inicio > 150) {
+                        Toast.makeText(MapsActivity.this,
+                                "Verifique sua conexão com a Internet", Toast.LENGTH_LONG).show();
+                    }
 
                 } else {
                     Toast.makeText(MapsActivity.this,
-                            "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
+                            "Segure e arraste o pino para o local", Toast.LENGTH_LONG).show();
                     pinoBuscar.setVisible(true);
                 }
             }
@@ -96,7 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(PERTH)
                 .draggable(true)
                 .visible(false));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(PERTH));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PERTH, 14));
 
         // O pino só deve aparecer depois
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -104,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onMapClick(LatLng latLng) {
                 if (!perth.isVisible()) {
                     Toast.makeText(MapsActivity.this,
-                            "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
+                            "SSegure e arraste o pino para o local", Toast.LENGTH_LONG).show();
                     perth.setVisible(true);
                 }
             }
@@ -116,7 +135,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onMarkerDragStart(Marker arg0) {
                 if (!perth.isVisible()) {
                     Toast.makeText(MapsActivity.this,
-                            "Segure e arraste o pino para a posição desejada", Toast.LENGTH_LONG).show();
+                            "Segure e arraste o pino para o local", Toast.LENGTH_LONG).show();
                     perth.setVisible(true);
                 }
 
