@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         startActivity(intent);
                     }
                     fim = System.currentTimeMillis();
-                    if (fim - inicio > 150) {
+                    if (fim - inicio > 200) {
                         Toast.makeText(MapsActivity.this,
                                 "Verifique sua conexão com a Internet", Toast.LENGTH_LONG).show();
                     }
@@ -122,8 +122,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onMapClick(LatLng latLng) {
                 if (!perth.isVisible()) {
-                    Toast.makeText(MapsActivity.this,
-                            "SSegure e arraste o pino para o local", Toast.LENGTH_LONG).show();
                     perth.setVisible(true);
                 }
             }
@@ -134,8 +132,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onMarkerDragStart(Marker arg0) {
                 if (!perth.isVisible()) {
-                    Toast.makeText(MapsActivity.this,
-                            "Segure e arraste o pino para o local", Toast.LENGTH_LONG).show();
                     perth.setVisible(true);
                 }
 

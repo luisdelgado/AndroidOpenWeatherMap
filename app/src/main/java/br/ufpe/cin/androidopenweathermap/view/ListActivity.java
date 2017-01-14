@@ -51,6 +51,7 @@ public class ListActivity extends AppCompatActivity {
                     intent.putExtra("jsonDeResposta", jsonDeResposta);
                     intent.putExtra("posicao", position);
                     startActivity(intent);
+                    finish();
                 }
             });
 

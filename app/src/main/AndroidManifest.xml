@@ -42,7 +42,10 @@
             android:name=".view.ListActivity"
             android:label="Cidades"
             android:parentActivityName=".view.MapsActivity"></activity>
-        <activity android:name=".view.DetailsActivity"></activity>
+        <activity android:name=".view.DetailsActivity"
+            android:label="Detalhes"
+            android:parentActivityName=".view.ListActivity">
+        </activity>
     </application>
 
 </manifest>
