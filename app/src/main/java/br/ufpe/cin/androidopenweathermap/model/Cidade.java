@@ -61,21 +61,13 @@ public class Cidade {
             JSONObject cidadeObjeto = new JSONObject(jsonString);
             for (int i = 0; i < 15; i++) {
 
-                // Pegando atributos da resposta do Open Weather Map
+                // Pegando os nomes das cidades da resposta do Open Weather Map
                 JSONObject cidadeName = cidadeObjeto.getJSONArray("list").getJSONObject(i);
                 String name = cidadeName.getString("name");
-                JSONObject cidadeDetalhes = cidadeName.getJSONObject("main");
-                String temp_max = cidadeDetalhes.getString("temp_max");
-                String temp_min = cidadeDetalhes.getString("temp_min");
-                JSONObject cidadeTempo = cidadeName.getJSONArray("weather").getJSONObject(0);
-                String description = cidadeTempo.getString("description");
 
-                // Colocando atributos no array de objetos de Cidade
+                // Colocando atributos no array de objetos de Cidades
                 Cidade cidade = new Cidade();
                 cidade.setName(name);
-                cidade.setTemp_max(temp_max);
-                cidade.setTemp_min(temp_min);
-                cidade.setWeather(description);
                 cidades[i] = cidade;
             }
 
@@ -84,6 +76,33 @@ public class Cidade {
         }
 
         return cidades;
+    }
+
+    public Cidade getDetalhes(int posicao, String jsonString) {
+
+        Cidade cidade = new Cidade();
+
+        try {
+            JSONObject cidadeObjeto = new JSONObject(jsonString);
+
+            // Pegando atributos da resposta do Open Weather Map
+            JSONObject cidadeName = cidadeObjeto.getJSONArray("list").getJSONObject(posicao);
+            JSONObject cidadeDetalhes = cidadeName.getJSONObject("main");
+            String temp_max = cidadeDetalhes.getString("temp_max");
+            String temp_min = cidadeDetalhes.getString("temp_min");
+            JSONObject cidadeTempo = cidadeName.getJSONArray("weather").getJSONObject(0);
+            String description = cidadeTempo.getString("description");
+
+            // Colocando atributos no objeto de Cidade
+            cidade.setTemp_max(temp_max);
+            cidade.setTemp_min(temp_min);
+            cidade.setWeather(description);
+
+        } catch (JSONException e) {
+            Log.e("Erro", "Erro no parsing do JSON", e);
+        }
+
+        return cidade;
     }
 
 }
