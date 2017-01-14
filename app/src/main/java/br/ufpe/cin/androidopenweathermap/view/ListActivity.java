@@ -30,9 +30,18 @@ public class ListActivity extends AppCompatActivity {
 
         opcoes = new ArrayList<>();
 
-        Object cidades = getIntent().getExtras().get("jsonDeResposta");
+        Object jsonDeResposta = getIntent().getExtras().get("jsonDeResposta");
 
-        opcoes.add("Sair");
+        Cidade cidade = new Cidade();
+        try {
+            Cidade[] cidades = cidade.getCidades(jsonDeResposta.toString());
+            for (int i = 0; i < 15; i++) {
+                opcoes.add(cidades[i].getName());
+            }
+
+        } catch (Exception e) {
+            finish();
+        }
 
         adaptador = new ArrayAdapter<>(ListActivity.this, android.R.layout.simple_list_item_1, opcoes);
         cities.setAdapter(adaptador);
