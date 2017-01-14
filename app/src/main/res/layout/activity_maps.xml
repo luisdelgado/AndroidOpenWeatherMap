@@ -11,12 +11,12 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginRight="32dp"
+            android:layout_marginRight="16dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="64dp"
             android:text="@string/search"
             android:background="@drawable/screen_border"
-            android:textColor="@color/colorAccent">
+            android:textColor="#FFFF">
         </Button>
 
 </fragment>
