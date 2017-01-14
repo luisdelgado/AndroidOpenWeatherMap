@@ -38,11 +38,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-            <activity
-                android:name=".view.ListActivity"
-                android:label="Cidades"
-                android:parentActivityName=".view.MapsActivity">
-            </activity>
+        <activity
+            android:name=".view.ListActivity"
+            android:label="Cidades"
+            android:parentActivityName=".view.MapsActivity"></activity>
+        <activity android:name=".view.DetailsActivity"></activity>
     </application>
 
 </manifest>

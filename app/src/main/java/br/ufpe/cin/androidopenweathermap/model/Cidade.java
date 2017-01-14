@@ -87,6 +87,7 @@ public class Cidade {
 
             // Pegando atributos da resposta do Open Weather Map
             JSONObject cidadeName = cidadeObjeto.getJSONArray("list").getJSONObject(posicao);
+            String name = cidadeName.getString("name");
             JSONObject cidadeDetalhes = cidadeName.getJSONObject("main");
             String temp_max = cidadeDetalhes.getString("temp_max");
             String temp_min = cidadeDetalhes.getString("temp_min");
@@ -94,6 +95,7 @@ public class Cidade {
             String description = cidadeTempo.getString("description");
 
             // Colocando atributos no objeto de Cidade
+            cidade.setName(name);
             cidade.setTemp_max(temp_max);
             cidade.setTemp_min(temp_min);
             cidade.setWeather(description);
