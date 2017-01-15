@@ -5,11 +5,6 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Map;
-
-import br.ufpe.cin.androidopenweathermap.view.MapsActivity;
-
 /**
  * Created by luis on 13/01/17.
  */
