@@ -1,18 +1,10 @@
 package br.ufpe.cin.androidopenweathermap.view;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,16 +15,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import br.ufpe.cin.androidopenweathermap.R;
 import br.ufpe.cin.androidopenweathermap.controller.Connection;
-import br.ufpe.cin.androidopenweathermap.model.Cidade;
 
-import static android.app.PendingIntent.getActivity;
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 import static br.ufpe.cin.androidopenweathermap.R.id.map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -56,9 +41,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 // Verificando se o usuario ja passou da primeria tela
                 if (pinoBuscar.isVisible()) {
-                    Toast.makeText(MapsActivity.this,
-                            "Carregando...", Toast.LENGTH_SHORT).show();
 
+                    // Pegando latitude e longitude do pino
                     LatLng latLng = pinoBuscar.getPosition();
 
                     // Iniciando conexão com Open Weather Map
@@ -68,11 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     // Esperando resposta chegar do servidor
                     double inicio = System.currentTimeMillis();
-                    double fim = System.currentTimeMillis();
-                    while (fim - inicio < 5) {
-                        fim = System.currentTimeMillis();
-                    }
-                    if (jsonDeResposta.equals("") || jsonDeResposta.equals("erro")) {
+                    if (jsonDeResposta.equals("erro")) {
                         Toast.makeText(MapsActivity.this,
                                 "O servidor está com problemas", Toast.LENGTH_LONG).show();
                     } else {
@@ -80,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         intent.putExtra("jsonDeResposta", jsonDeResposta);
                         startActivity(intent);
                     }
-                    fim = System.currentTimeMillis();
+                    double fim = System.currentTimeMillis();
                     if (fim - inicio > 200) {
                         Toast.makeText(MapsActivity.this,
                                 "Verifique sua conexão com a Internet", Toast.LENGTH_LONG).show();

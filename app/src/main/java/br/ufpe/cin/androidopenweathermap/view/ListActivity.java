@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import br.ufpe.cin.androidopenweathermap.R;
 import br.ufpe.cin.androidopenweathermap.model.Cidade;

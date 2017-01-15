@@ -1,14 +1,7 @@
 package br.ufpe.cin.androidopenweathermap.controller;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -16,12 +9,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
-import br.ufpe.cin.androidopenweathermap.model.Cidade;
-import br.ufpe.cin.androidopenweathermap.view.MapsActivity;
-
-import static android.R.attr.button;
-import static android.R.attr.inAnimation;
 
 /**
  * Created by luis on 12/01/17.
@@ -89,7 +76,7 @@ public class Connection extends AsyncTask<String, Context, String> {
         // Esperando resposta chegar do servidor
         while (jsonDeResposta.equals("")) {
             try {
-                Thread.currentThread().sleep(5000);
+                Thread.currentThread().sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
