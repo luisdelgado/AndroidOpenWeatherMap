@@ -55,16 +55,17 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         // In Loco Interstitial
+        // setAdUnitId modificado porque com o template do site dava erro
         interstitialAd = new InterstitialAd(DetailsActivity.this);
         AdRequest adRequest = new AdRequest.Builder().build();
-        interstitialAd.setAdUnitId("bf6e6388b0278b3adc57c2e6a0fbb3c556cf4f93979d18f1ed1de195526a32d2");
+        interstitialAd.setAdUnitId("41ae2ebedf9bf998febfce0c9819fcc6be79dbb7cd9f06430a011cf712f6b2d5");
         interstitialAd.loadAd(adRequest);
 
-        // Forma correta de pegar Interstitial
+        // Outra forma de pegar Interstitial
 //        mPublisherInterstitialAd = new PublisherInterstitialAd(this);
-//        mPublisherInterstitialAd.setAdUnitId("bf6e6388b0278b3adc57c2e6a0fbb3c556cf4f93979d18f1ed1de195526a32d2");
+//        mPublisherInterstitialAd.setAdUnitId("41ae2ebedf9bf998febfce0c9819fcc6be79dbb7cd9f06430a011cf712f6b2d5");
 //        PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
-//                .addTestDevice("bf6e6388b0278b3adc57c2e6a0fbb3c556cf4f93979d18f1ed1de195526a32d2")
+//                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
 //                .build();
 //        mPublisherInterstitialAd.loadAd(adRequest);
 
@@ -76,7 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
             interstitialAd.show();
         }
 
-        // Forma correta de pegar Interstitial
+        // Outra forma de pegar Interstitial
 //        if (mPublisherInterstitialAd.isLoaded()) {
 //            mPublisherInterstitialAd.show();
 //        }
